@@ -1,0 +1,10 @@
+Metric,Value
+Selected Final Model,Smoothed Ensemble + LSTM
+Mean IC,0.1267
+ICIR,0.3982
+Net Return,30.50%
+Net Sharpe,0.72
+Max Drawdown,-13.72%
+Average Turnover,1.14
+Hit Rate,63.64%
+Calmar Ratio,1.24
