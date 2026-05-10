@@ -81,6 +81,30 @@ The project followed a complete alpha research workflow:
 
 ![Final Model Dashboard](charts/final_model_dashboard.png)
 
+### Feature Importance
+
+![Feature Importance](charts/feature_importance.png)
+
+### Baseline Model Metrics
+
+![Model Metrics](charts/model_metrics.png)
+
+### Portfolio Sensitivity Heatmaps
+
+![Sensitivity Heatmaps](charts/sensitivity_heatmaps.png)
+
+### Top 3 vs Top 5 Portfolio Comparison
+
+![Top 3 vs Top 5 Comparison](charts/top3_vs_top5_comparison.png)
+
+### Entry Threshold Sensitivity
+
+![Threshold Sensitivity](charts/threshold_sensitivity.png)
+
+### Latest Alpha Rankings
+
+![Alpha Rankings](charts/alpha_rankings.png)
+
 ## 5. Key Findings
 
 The project produced several important findings:
