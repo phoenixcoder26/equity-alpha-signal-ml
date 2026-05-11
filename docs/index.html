@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -645,7 +646,7 @@ const bttEl=document.getElementById('btt');
 window.addEventListener('scroll',()=>bttEl.classList.toggle('vis',scrollY>400));
 
 /* ── HERO PARTICLE CANVAS ─────────────────────────────── */
-(function(){
+(function(){try{
   const cv=document.getElementById('hero-canvas');
   const ctx=cv.getContext('2d');
   let W,H,pts=[];
@@ -669,7 +670,7 @@ window.addEventListener('scroll',()=>bttEl.classList.toggle('vis',scrollY>400));
         ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke();}}
     pts.forEach(p=>{p.step();p.draw();});requestAnimationFrame(frame);}
   frame();
-})();
+}catch(e){console.warn('Hero canvas error:',e);}})();
 
 /* ── METRIC COUNT-UP + SPARKLINES ─────────────────────── */
 const metDefs=[
@@ -725,7 +726,7 @@ const mGrid=document.querySelector('.metrics-grid');
 if(mGrid)metObs.observe(mGrid);
 
 /* ── LIVE HERO MINI CHART (signal panel) ──────────────── */
-(function(){
+(function(){try{
   const cv=document.getElementById('live-price-canvas');
   if(!cv)return;
   const ctx=cv.getContext('2d');
@@ -755,7 +756,7 @@ if(mGrid)metObs.observe(mGrid);
     requestAnimationFrame(frame);
   }
   frame();
-})();
+}catch(e){console.warn('Live price canvas error:',e);}})();
 
 /* ── ANIMATED BAR CHART ───────────────────────────────── */
 const barData={
@@ -839,6 +840,7 @@ window.switchBar=function(key,btn){
   animBar();
 };
 // Bar tooltip
+try{
 const barCv=document.getElementById('barCv');
 const barTip=document.getElementById('barTip');
 barCv&&barCv.addEventListener('mousemove',e=>{
@@ -866,9 +868,10 @@ const barObs=new IntersectionObserver(entries=>{
 },{threshold:.2});
 const barSection=document.getElementById('barCv');
 if(barSection)barObs.observe(barSection);
+}catch(e){console.warn('Bar chart init error:',e);}
 
 /* ── SVG LINE CHART ───────────────────────────────────── */
-(function(){
+(function(){try{
   const svg=document.getElementById('lineSvg');if(!svg)return;
   const W=560,H=280,P={t:20,r:20,b:36,l:46};
   const pW=W-P.l-P.r,pH=H-P.t-P.b;
@@ -938,10 +941,10 @@ if(barSection)barObs.observe(barSection);
     });
     leg.appendChild(el);
   });
-})();
+}catch(e){console.warn('Line chart error:',e);}})();
 
 /* ── PHYSICS BUBBLE CHART ─────────────────────────────── */
-(function(){
+(function(){try{
   const cv=document.getElementById('bubCv');if(!cv)return;
   const ctx=cv.getContext('2d');
   const tip=document.getElementById('bubTip');
@@ -1043,10 +1046,10 @@ if(barSection)barObs.observe(barSection);
   if(leg)SIGS.forEach(s=>{
     leg.innerHTML+=`<div class="leg-item"><div class="leg-dot" style="background:${s.color}"></div>${s.name}</div>`;
   });
-})();
+}catch(e){console.warn('Bubble chart error:',e);}})();
 
 /* ── RADAR ────────────────────────────────────────────── */
-(function(){
+(function(){try{
   const svg=document.getElementById('radarSvg');if(!svg)return;
   const axes=['IC','ICIR','Sharpe','Net Ret','Hit Rate','Calmar'];
   const ranges=[.17,.5,.8,35,60,1.1];
@@ -1100,7 +1103,7 @@ if(barSection)barObs.observe(barSection);
     pts.forEach(([px,py])=>{
       const d=document.createElementNS('http://www.w3.org/2000/svg','circle');
       d.setAttribute('cx',px);d.setAttribute('cy',py);d.setAttribute('r','4');
-      d.setAttribute('fill',sig.color);d.className='r-dot';
+      d.setAttribute('fill',sig.color);d.setAttribute('class','r-dot');
       d.style.opacity='0';d.style.transition='opacity .3s .7s';
       svg.appendChild(d);setTimeout(()=>d.style.opacity='1',10);
     });
@@ -1123,10 +1126,10 @@ if(barSection)barObs.observe(barSection);
     radarLeg.innerHTML+=`<div class="leg-item"><span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text3)">[${i+1}]</span>${ax}</div>`;
   });
   drawRadar(SIGS[1]);
-})();
+}catch(e){console.warn('Radar chart error:',e);}})();
 
 /* ── HEATMAP ──────────────────────────────────────────── */
-(function(){
+(function(){try{
   const table=document.getElementById('hmTable');if(!table)return;
   const sigs=['Ens+LSTM','LSTM','RF+GB','Grad Boost','Rand Forest'];
   const folds=['Fold 1','Fold 2','Fold 3','Fold 4'];
@@ -1169,10 +1172,10 @@ if(barSection)barObs.observe(barSection);
     });
   },{threshold:.3});
   hmObs.observe(table);
-})();
+}catch(e){console.warn('Heatmap error:',e);}})();
 
 /* ── PROGRESS BARS ────────────────────────────────────── */
-(function(){
+(function(){try{
   const container=document.getElementById('progGrid');if(!container)return;
   const groups=[
     {title:'Net Sharpe Ratio',color:'#1a56db',key:'sharpe',max:.8},
@@ -1205,10 +1208,10 @@ if(barSection)barObs.observe(barSection);
     });
   },{threshold:.25});
   progObs.observe(container);
-})();
+}catch(e){console.warn('Progress bars error:',e);}})();
 
 /* ── PLOTLY ANIMATED ──────────────────────────────────── */
-(function(){
+(function(){try{
   const frames=[
     {name:'f1',label:'📊 Signal Quality',    xK:'ic',    yK:'icir', xT:'Mean IC',      yT:'ICIR'},
     {name:'f2',label:'🏦 Portfolio Perf',    xK:'sharpe',yK:'ret',  xT:'Net Sharpe',   yT:'Net Return (%)'},
@@ -1256,12 +1259,12 @@ if(barSection)barObs.observe(barSection);
     ]
   },{displayModeBar:true,scrollZoom:true,responsive:true,displaylogo:false})
   .then(()=>Plotly.addFrames('chartD',pf));
-})();
+}catch(e){console.warn('Plotly chart error:',e);}})();
 
 /* ═══════════════════════════════════════════════════════
    LIVE CANDLESTICK CHART ENGINE
 ═══════════════════════════════════════════════════════ */
-(function(){
+(function(){try{
   const TICKERS={
     AAPL:{base:182,vol:.013,seed:31,vbase:72e6},
     MSFT:{base:415,vol:.011,seed:47,vbase:28e6},
@@ -1480,7 +1483,7 @@ ${sg!==null?`<div style="color:#34d399">Signal ${sg>0?'+':''}${sg}</div>`:''}`;
   };
   const ro=new ResizeObserver(()=>drawCandle());ro.observe(C.parentElement);
   loadTk('AAPL');
-})();
+}catch(e){console.warn('Candlestick error:',e);}})();
 
 /* ── GALLERY ──────────────────────────────────────────── */
 const chartDefs=[
@@ -1495,7 +1498,7 @@ const chartDefs=[
   {file:'sensitivity_heatmaps.png',       title:'Portfolio Sensitivity Heatmaps',     caption:'Sensitivity of net Sharpe and drawdown to threshold and turnover cost parameters.'},
   {file:'alpha_rankings.png',             title:'Latest Alpha Rankings',              caption:'Cross-sectional alpha signal rankings across the 12-ticker universe.'},
 ];
-(function buildGallery(){
+(function buildGallery(){try{
   const gallery=document.getElementById('gallery');
   chartDefs.forEach(c=>{
     const path=`../charts/${c.file}`;
@@ -1514,7 +1517,7 @@ const chartDefs=[
     gallery.appendChild(card);
     revObs.observe(card);
   });
-})();
+}catch(e){console.warn('Gallery error:',e);}})();
 
 function closeLb(e){if(e.target===document.getElementById('lightbox'))document.getElementById('lightbox').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('open');});
