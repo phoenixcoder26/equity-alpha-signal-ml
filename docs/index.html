@@ -1495,22 +1495,63 @@ try {
 
 /* ── GALLERY ─────────────────────────────────────────── */
 try {
- const chartDefs=[
-  {file:'charts/backtest_dashboard.png',         title:'Initial Backtesting Dashboard',       caption:'Overview of the corrected backtest pipeline results across all baseline signals.'},
-  {file:'charts/costs_turnover_ic_dashboard.png',title:'Transaction Cost & Turnover Analysis',caption:'Validation of the impact of transaction costs and portfolio turnover on signal net returns.'},
-  {file:'charts/chart3_ic_dashboard.png',        title:'LSTM OOS Signal Quality',             caption:'Out-of-sample IC and ICIR tracking for the LSTM walk-forward validation.'},
-  {file:'charts/chart4_blend_sensitivity.png',   title:'LSTM Blend Sensitivity',              caption:'Sensitivity of portfolio metrics to the LSTM vs ensemble blending ratio.'},
-  {file:'charts/clean_chart_1_net_sharpe.png',   title:'Final Model Comparison — Net Sharpe', caption:'Head-to-head net Sharpe comparison across all candidate signal variants.'},
-  {file:'charts/clean_chart_4_risk_return.png',  title:'Risk-Return Tradeoff',                caption:'Scatter of all signals by net return and maximum drawdown with Sharpe bubble sizing.'},
-  {file:'charts/final_model_dashboard.png',      title:'Final Model Dashboard',               caption:'Complete performance dashboard for the selected Ensemble + LSTM model.'},
-  {file:'charts/feature_importance.png',         title:'Feature Importance',                  caption:'Top features contributing to signal predictions across both RF and GB components.'},
-  {file:'charts/sensitivity_heatmaps.png',       title:'Portfolio Sensitivity Heatmaps',      caption:'Sensitivity of net Sharpe and drawdown to threshold and turnover cost parameters.'},
-  {file:'charts/alpha_rankings.png',             title:'Latest Alpha Rankings',               caption:'Cross-sectional alpha signal rankings across the 12-ticker universe.'},
-];
+const chartDefs=[
+  {file:'backtest_dashboard.png', title:'Initial Backtesting Dashboard', caption:'Overview of the corrected backtest pipeline results across all baseline signals.'},
+
+  {file:'costs_turnover_ic_dashboard.png', title:'Transaction Cost & Turnover Analysis', caption:'Validation of the impact of transaction costs and portfolio turnover on signal net returns.'},
+
+  {file:'chart3_ic_dashboard.png', title:'LSTM OOS Signal Quality', caption:'Out-of-sample IC and ICIR tracking for the LSTM walk-forward validation.'},
+
+  {file:'chart4_blend_sensitivity.png', title:'LSTM Blend Sensitivity', caption:'Sensitivity of portfolio metrics to the LSTM versus ensemble blending ratio.'},
+
+  {file:'clean_chart_1_net_sharpe.png', title:'Final Model Comparison — Net Sharpe', caption:'Head-to-head net Sharpe comparison across all candidate signal variants.'},
+
+  {file:'clean_chart_2_net_return.png', title:'Final Model Comparison — Net Return', caption:'Comparison of net return after transaction costs across candidate signals.'},
+
+  {file:'clean_chart_3_mean_ic.png', title:'Final Model Comparison — Mean IC', caption:'Signal quality comparison using mean information coefficient across model variants.'},
+
+  {file:'clean_chart_4_risk_return.png', title:'Risk-Return Tradeoff', caption:'Comparison of net return and maximum drawdown across candidate signals.'},
+
+  {file:'feature_importance.png', title:'Feature Importance', caption:'Top features contributing to signal predictions across tree-based model components.'},
+
+  {file:'final_model_dashboard.png', title:'Final Model Dashboard', caption:'Complete performance dashboard for the selected Ensemble + LSTM model.'},
+
+  {file:'final_model_selection.png', title:'Final Model Selection Dashboard', caption:'Multi-metric comparison used to select the final clean signal.'},
+
+  {file:'final_model_selection_small_universe.png', title:'Final Model Selection — Small Universe', caption:'Final model selection results for the 12-ticker research universe.'},
+
+  {file:'lstm_oos_signal_quality_dashboard.png', title:'LSTM Walk-Forward OOS Signal Quality', caption:'Out-of-sample signal quality dashboard for the LSTM validation process.'},
+
+  {file:'oos_ic_per_walk_forward_fold.png', title:'OOS IC per Walk-Forward Fold', caption:'Information coefficient by walk-forward fold to evaluate signal stability over time.'},
+
+  {file:'ic_analysis.png', title:'Information Coefficient Analysis', caption:'Detailed IC analysis showing signal strength, consistency, and distribution.'},
+
+  {file:'ic_vs_net_sharpe.png', title:'IC vs Net Sharpe', caption:'Comparison of signal quality and portfolio performance across candidate models.'},
+
+  {file:'model_performance_metrics.png', title:'Model Performance Metrics', caption:'Comparison of RMSE, directional accuracy, and prediction-to-actual correlation.'},
+
+  {file:'predicted_vs_actual.png', title:'Predicted vs Actual Returns', caption:'Scatterplot comparison of predicted 20-day returns versus actual 20-day returns.'},
+
+  {file:'return_correlation_heatmap.png', title:'Return Correlation Heatmap', caption:'Correlation structure across the 12-ticker universe used in the project.'},
+
+  {file:'sensitivity_heatmaps.png', title:'Sensitivity Analysis — Top N and Rebalance Frequency', caption:'Sensitivity of Sharpe, return, and drawdown across portfolio construction settings.'},
+
+  {file:'threshold_sensitivity.png', title:'Entry Threshold Sensitivity', caption:'Effect of minimum predicted return threshold on Sharpe ratio.'},
+
+  {file:'top3_vs_top5_comparison.png', title:'Top 3 vs Top 5 Backtest Comparison', caption:'Compares concentrated Top 3 and broader Top 5 portfolio construction across returns and drawdown.'},
+
+  {file:'transaction_costs_turnover_signal_quality.png', title:'Transaction Costs, Turnover, and Signal Quality', caption:'Expanded diagnostic view of gross return, net return, turnover, cost erosion, and IC health.'},
+
+  {file:'alpha_rankings.png', title:'Latest Alpha Rankings', caption:'Cross-sectional alpha signal rankings across the 12-ticker universe.'},
+
+  {file:'normalized_price_performance.png', title:'Normalized Price Performance', caption:'Normalized historical price movement across the ticker universe.'},
+
+  {file:'sector_neutralization_final_signal_comparison.png', title:'Sector Neutralization Diagnostic', caption:'Diagnostic comparison of sector-neutral signal behavior and final model alternatives.'}
+];   
   const gallery=document.getElementById('gallery');
   if (gallery) {
     chartDefs.forEach(c=>{
-      const path='/equity-alpha-signal-ml/'+c.file;
+      const path='charts/'+c.file;
       const card=document.createElement('div'); card.className='gallery-card reveal';
       card.innerHTML='<div class="gal-img-wrap"><img src="'+path+'" alt="'+c.title+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div style=\\"display:flex;align-items:center;justify-content:center;height:100%;padding:1rem;text-align:center;font-size:.75rem;color:var(--text3)\\">📊 '+c.title.replace(/'/g,"&#39;")+'<br><small style=\\"opacity:.6\\">Loads on GitHub Pages</small></div>\'"/></div><div class="gal-info"><div class="gal-title">'+c.title+'</div><div class="gal-cap">'+c.caption+'</div></div>';
       card.addEventListener('click',()=>{
@@ -1518,7 +1559,7 @@ try {
         if(li)li.src=path; if(lc)lc.textContent=c.title+' — '+c.caption; if(lb)lb.classList.add('open');
       });
       gallery.appendChild(card);
-      if (window._revObs) window._revObs.observe(card);
+      if (typeof revObs !== 'undefined' && revObs) revObs.observe(card);
     });
   }
 } catch(e) { console.warn('Gallery error:', e); }
